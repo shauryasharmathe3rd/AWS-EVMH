@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream: #F5ECDC;
+  --color-latte: #D9C3A0;
+  --color-mocha: #8B5E3C;
+  --color-espresso: #2E1F14;
+}
+
+body {
+  font-family: "Times New Roman", Times, Georgia, serif !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Force Times New Roman for all elements per UI Spec */
+*, button, input, select, textarea, table, .leaflet-container {
+  font-family: "Times New Roman", Times, Georgia, serif !important;
+}
+
+/* Map styling per palette */
+.light-mode-map .leaflet-tile-pane {
+  filter: sepia(35%) contrast(95%) brightness(95%);
+}
+
+.dark-mode-map .leaflet-tile-pane {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(110%) sepia(20%);
+}
+
+/* Custom hatches for heat risk visualization */
+.hatch-low {
+  fill: #F5ECDC;
+}
+.hatch-moderate {
+  fill: #D9C3A0;
+}
+.hatch-high {
+  fill: #8B5E3C;
+}
+.hatch-extreme {
+  fill: #2E1F14;
+}

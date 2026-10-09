@@ -1,0 +1,59 @@
+# Tript-Dhara Configuration
+
+app:
+  name: "Tript-Dhara"
+  version: "1.0.0"
+  min_client_version: "1.0.0"
+  supported_languages: ["en", "hi"]
+  default_language: "en"
+
+city:
+  name: "Ghaziabad"
+  default_lat: 28.6345839
+  default_lon: 77.4477459
+  bbox: [77.30, 28.55, 77.58, 28.75] # [min_lon, min_lat, max_lon, max_lat]
+  country: "IN"
+  timezone: "Asia/Kolkata"
+
+priority_scoring:
+  # priority = leak_size_lpm * ln(1 + affected_population) * (1 + vulnerability_score) * (1 + heat_risk)
+  weights:
+    leak_size: 1.0
+    population: 1.0
+    vulnerability: 1.0
+    heat_risk: 1.0
+  # Default LPM estimates for citizen report size classes
+  leak_size_estimates_lpm:
+    drip: 5.0
+    steady: 40.0
+    burst: 250.0
+
+heat_risk:
+  # IMD (India Meteorological Department) Criteria approximations:
+  # Plain regions: Heat wave when max temp >= 40C and departure from normal is 4.5C to 6.4C
+  # Severe Heat Wave: departure > 6.4C or max temp >= 45C
+  imd_thresholds:
+    heatwave_min_temp_c: 40.0
+    heatwave_departure_c: 4.5
+    severe_heatwave_departure_c: 6.4
+    extreme_absolute_temp_c: 45.0
+  classes:
+    low: 0.1
+    moderate: 0.35
+    high: 0.65
+    extreme: 0.95
+
+simulation:
+  default_repair_crew_hours: 4.0
+  fixed_seed: 42
+  simulated_leak_count: 12
+
+strands:
+  briefing_prompt_template: |
+    You are an emergency water-heat dispatch coordinator. Analyze the top prioritized leaks:
+    {top_leaks_summary}
+    Current Heat Risk: {heat_risk_summary}
+    Provide a concise operational briefing for the repair crews covering:
+    1. Critical action order for today
+    2. Population & hospital protection focus
+    3. Heatwave coordination recommendations

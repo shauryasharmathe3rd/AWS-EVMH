@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: tript_dhara_gateway
+    ports:
+      - "${GATEWAY_PORT:-8080}:80"
+    depends_on:
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    networks:
+      - edge
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tript_dhara_frontend
+    networks:
+      - edge
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tript_dhara_backend
+    env_file:
+      - .env
+    volumes:
+      - photos:/app/storage/photos
+      - models:/app/models
+      - ./config.yaml:/app/config.yaml:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - edge
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    container_name: tript_dhara_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tript_dhara}
+      POSTGRES_USER: ${POSTGRES_USER:-tript_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tript_secure_pass}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tript_user} -d ${POSTGRES_DB:-tript_dhara} || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: tript_dhara_worker
+    env_file:
+      - .env
+    volumes:
+      - rawcache:/app/data/cache
+      - models:/app/models
+      - ./data/raw:/app/data/raw:ro
+      - ./config.yaml:/app/config.yaml:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+    restart: unless-stopped
+
+networks:
+  edge:
+    driver: bridge
+  internal:
+    internal: true
+    driver: bridge
+
+volumes:
+  pgdata:
+  photos:
+  models:
+  rawcache:

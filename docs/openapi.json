@@ -1,0 +1,303 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Tript-Dhara API",
+    "description": "Backend API for Tript-Dhara - Heat & Water Resilience and Leak Prioritization System",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "summary": "Get App Meta",
+        "description": "Returns app metadata, client version requirements, feature flags, and data freshness.",
+        "operationId": "get_meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetaResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meta/data-status": {
+      "get": {
+        "summary": "Get Data Status",
+        "description": "Returns provenance registry and overall real-data coverage metrics.",
+        "operationId": "get_data_status_api_v1_meta_data_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/wards": {
+      "get": {
+        "summary": "Get Wards",
+        "description": "Returns GeoJSON FeatureCollection of all wards with real heat risk & vulnerability scores.",
+        "operationId": "get_wards_api_v1_wards_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WardGeoJSONCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/facilities": {
+      "get": {
+        "summary": "Get Facilities",
+        "description": "Returns real critical facilities (hospitals, schools, care homes, water points).",
+        "operationId": "get_facilities_api_v1_facilities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FacilityOut"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/leaks": {
+      "get": {
+        "summary": "Get Leaks",
+        "description": "Returns priority-ranked leak incidents.",
+        "operationId": "get_leaks_api_v1_leaks_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeakOut"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports": {
+      "post": {
+        "summary": "Create Citizen Report",
+        "description": "Anonymous citizen leak report with Idempotency-Key handling and photo stripping.",
+        "operationId": "create_citizen_report_api_v1_reports_post",
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/impact/simulate": {
+      "get": {
+        "summary": "Simulate Impact",
+        "description": "Computes Before/After impact comparison.",
+        "operationId": "simulate_impact_api_v1_impact_simulate_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactSimulationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/briefing": {
+      "get": {
+        "summary": "Get Operator Briefing",
+        "description": "Returns AI operator briefing generated with AWS open-source Strands Agents SDK.",
+        "operationId": "get_briefing_api_v1_briefing_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorBriefingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices": {
+      "post": {
+        "summary": "Register Device",
+        "description": "Anonymous device registration for future mobile push notifications.",
+        "operationId": "register_device_api_v1_devices_post",
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/demo/reset": {
+      "post": {
+        "summary": "Reset Demo State",
+        "description": "Resets leaks and simulation to repeatable demo state.",
+        "operationId": "reset_demo_state_api_v1_demo_reset_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MetaResponse": {
+        "type": "object",
+        "properties": {
+          "app_name": {"type": "string"},
+          "version": {"type": "string"},
+          "min_client_version": {"type": "string"},
+          "city_name": {"type": "string"},
+          "city_center": {"type": "array", "items": {"type": "number"}},
+          "supported_languages": {"type": "array", "items": {"type": "string"}},
+          "feature_flags": {"type": "object"},
+          "data_freshness": {"type": "object"}
+        }
+      },
+      "DataStatusResponse": {
+        "type": "object",
+        "properties": {
+          "coverage_real_derived_pct": {"type": "number"},
+          "data_sources": {"type": "array", "items": {"type": "object"}},
+          "total_sources": {"type": "integer"},
+          "active_sources": {"type": "integer"}
+        }
+      },
+      "WardGeoJSONCollection": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string", "example": "FeatureCollection"},
+          "features": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "FacilityOut": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "facility_type": {"type": "string"},
+          "lat": {"type": "number"},
+          "lon": {"type": "number"},
+          "ward_id": {"type": "integer"},
+          "capacity": {"type": "integer"},
+          "data_origin": {"type": "string"}
+        }
+      },
+      "LeakOut": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "lat": {"type": "number"},
+          "lon": {"type": "number"},
+          "ward_id": {"type": "integer"},
+          "ward_name": {"type": "string"},
+          "leak_size_lpm": {"type": "number"},
+          "size_class": {"type": "string"},
+          "status": {"type": "string"},
+          "priority_score": {"type": "number"},
+          "score_breakdown": {"type": "object"},
+          "data_origin": {"type": "string"}
+        }
+      },
+      "ImpactSimulationResponse": {
+        "type": "object",
+        "properties": {
+          "repair_crew_hours": {"type": "number"},
+          "baseline_liters_lost": {"type": "number"},
+          "tript_dhara_liters_lost": {"type": "number"},
+          "liters_saved": {"type": "number"},
+          "baseline_vulnerable_protected": {"type": "integer"},
+          "tript_dhara_vulnerable_protected": {"type": "integer"},
+          "additional_vulnerable_protected": {"type": "integer"}
+        }
+      },
+      "OperatorBriefingResponse": {
+        "type": "object",
+        "properties": {
+          "generated_at": {"type": "string", "format": "date-time"},
+          "provider": {"type": "string"},
+          "model_id": {"type": "string"},
+          "briefing_en": {"type": "string"},
+          "briefing_hi": {"type": "string"},
+          "is_fallback": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
