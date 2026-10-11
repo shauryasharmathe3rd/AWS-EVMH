@@ -3,7 +3,7 @@ import { ProvenanceBadge } from './ProvenanceBadge';
 
 export const PriorityQueue = ({ leaks, selectedLeak, onSelectLeak, onUpdateStatus, allowStatusChange, lang = 'en' }) => {
   return (
-    <div className="flex flex-col h-full bg-cream dark:bg-espresso text-espresso dark:text-cream border border-latte overflow-hidden">
+    <div className="priority-panel glass-panel flex flex-col h-full bg-cream dark:bg-espresso text-espresso dark:text-cream border border-latte overflow-hidden">
       <div className="bg-latte dark:bg-mocha px-4 py-2 border-b border-latte flex justify-between items-center">
         <h3 className="text-base font-bold tracking-wide">
           {lang === 'hi' ? 'लीक प्राथमिकता कतार (रैंकिंग)' : 'Leak Priority Queue (Ranked)'}
@@ -20,7 +20,7 @@ export const PriorityQueue = ({ leaks, selectedLeak, onSelectLeak, onUpdateStatu
             <div
               key={leak.id}
               onClick={() => onSelectLeak(leak)}
-              className={`p-3 border cursor-pointer transition-all ${
+              className={`incident-card border cursor-pointer transition-all ${isSelected ? 'selected' : ''} ${
                 isSelected
                   ? 'border-mocha dark:border-latte bg-latte/40 dark:bg-mocha/40'
                   : 'border-latte/70 hover:border-mocha dark:hover:border-latte bg-cream dark:bg-espresso'

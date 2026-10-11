@@ -6,7 +6,7 @@ export const ProvenanceBadge = ({ origin, timestamp, sourceName }) => {
   // DERIVED: outlined badge
   // BENCHMARK: dashed outline
   // SIMULATED: diagonal-hatch badge with the word "SIMULATED"
-  let badgeStyle = "inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-none ";
+  let badgeStyle = "inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ";
 
   if (origin === 'REAL') {
     badgeStyle += "bg-mocha text-cream dark:bg-latte dark:text-espresso border border-espresso dark:border-latte";

@@ -26,7 +26,7 @@ export const ImpactPanel = ({ lang = 'en' }) => {
   }, [crewHours]);
 
   return (
-    <div className="bg-cream dark:bg-espresso text-espresso dark:text-cream border border-latte p-4">
+    <div className="glass-panel bg-cream dark:bg-espresso text-espresso dark:text-cream border border-latte p-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center pb-3 border-b border-latte gap-2">
         <div>
           <div className="flex items-center space-x-2">
@@ -62,7 +62,7 @@ export const ImpactPanel = ({ lang = 'en' }) => {
       {impactData && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           {/* Key Metric 1: Liters Saved */}
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20 flex flex-col justify-between">
+          <div className="metric-card flex flex-col justify-between">
             <span className="text-xs font-semibold">
               {lang === 'hi' ? 'अनुमानित जल बचत' : 'Potable Water Saved'}
             </span>
@@ -81,7 +81,7 @@ export const ImpactPanel = ({ lang = 'en' }) => {
           </div>
 
           {/* Key Metric 2: Vulnerable Pop Protected */}
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20 flex flex-col justify-between">
+          <div className="metric-card flex flex-col justify-between">
             <span className="text-xs font-semibold">
               {lang === 'hi' ? 'संवेदनशील नागरिक सुरक्षा (24h)' : 'Vulnerable Protected (24h)'}
             </span>

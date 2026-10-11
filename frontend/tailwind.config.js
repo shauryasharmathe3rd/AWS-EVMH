@@ -14,7 +14,7 @@ export default {
         espresso: '#2E1F14',
       },
       fontFamily: {
-        serif: ['"Times New Roman"', 'Times', 'serif'],
+        serif: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       }
     },
   },

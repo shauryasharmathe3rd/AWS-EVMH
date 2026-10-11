@@ -1,10 +1,7 @@
 import React from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup } from 'react-leaflet';
 
 export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelectLeak, darkMode }) => {
-  // 4 solid color palette for 4 heat risk classes:
-  // Low: Cream, Moderate: Latte, High: Mocha, Extreme: Espresso (inverted in dark mode for contrast)
   const getWardStyle = (feature) => {
     const risk = feature.properties.heat_risk_class || 'Low';
     let fillColor = '#F5ECDC';
@@ -15,7 +12,6 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
       else if (risk === 'Moderate') fillColor = '#D9C3A0';
       else fillColor = '#F5ECDC';
     } else {
-      // In dark mode: Extreme is highest contrast (Cream) against dark Espresso background
       if (risk === 'Extreme') fillColor = '#F5ECDC';
       else if (risk === 'High') fillColor = '#D9C3A0';
       else if (risk === 'Moderate') fillColor = '#8B5E3C';
@@ -33,7 +29,7 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
 
   const onEachWard = (ward, layer) => {
     layer.bindPopup(`
-      <div style="font-family: 'Times New Roman', serif; padding: 4px;">
+      <div style="font-family: Inter, system-ui, sans-serif; padding: 4px;">
         <h4 style="font-weight: bold; margin: 0 0 4px 0; font-size: 15px;">${ward.properties.ward_name} (${ward.properties.ward_number})</h4>
         <p style="margin: 2px 0;"><strong>Population:</strong> ${ward.properties.population?.toLocaleString()}</p>
         <p style="margin: 2px 0;"><strong>Heat Risk Class:</strong> ${ward.properties.heat_risk_class} (${ward.properties.heat_risk_score})</p>
@@ -44,7 +40,7 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
   };
 
   const getFacilityColor = (type) => {
-    if (type === 'hospital' || type === 'clinic') return '#8B5E3C';
+    if (type === 'hospital' || type === 'clinic') return '#A94F38';
     if (type === 'drinking_water' || type === 'water_tower') return '#2E1F14';
     return '#D9C3A0';
   };
@@ -85,7 +81,7 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
             }}
           >
             <Popup>
-              <div style={{ fontFamily: 'Times New Roman, serif' }}>
+              <div style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 <strong style={{ fontSize: '14px' }}>{fac.name}</strong>
                 <p style={{ margin: '2px 0', fontSize: '12px' }}>Type: {fac.facility_type}</p>
                 <span style={{ fontSize: '10px' }}>REAL (OSM)</span>
@@ -104,8 +100,8 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
               center={[leak.lat, leak.lon]}
               radius={radius}
               pathOptions={{
-                fillColor: leak.data_origin === 'REAL' ? '#8B5E3C' : '#D9C3A0',
-                color: isSelected ? '#2E1F14' : (darkMode ? '#F5ECDC' : '#2E1F14'),
+                fillColor: leak.data_origin === 'REAL' ? '#A94F38' : '#D9C3A0',
+                color: isSelected ? '#8B5E3C' : (darkMode ? '#F5ECDC' : '#2E1F14'),
                 weight: isSelected ? 3 : 1.5,
                 fillOpacity: 0.95,
               }}
@@ -114,7 +110,7 @@ export const WardMap = ({ wardsGeoJson, facilities, leaks, selectedLeak, onSelec
               }}
             >
               <Popup>
-                <div style={{ fontFamily: 'Times New Roman, serif' }}>
+                <div style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                   <h4 style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>{leak.title}</h4>
                   <p style={{ margin: '2px 0' }}><strong>Priority Score:</strong> {leak.priority_score}</p>
                   <p style={{ margin: '2px 0' }}><strong>Estimated Rate:</strong> {leak.leak_size_lpm} LPM ({leak.size_class})</p>

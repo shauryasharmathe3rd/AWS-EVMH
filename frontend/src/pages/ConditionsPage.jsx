@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CloudRain, Droplets, ExternalLink, ThermometerSun, Waves } from 'lucide-react';
 import { ProvenanceBadge } from '../components/ProvenanceBadge';
 
 export const ConditionsPage = ({ lang = 'en' }) => {
@@ -29,7 +30,7 @@ export const ConditionsPage = ({ lang = 'en' }) => {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Current Real Weather Card */}
-      <div className="bg-cream dark:bg-espresso border border-latte p-5 text-espresso dark:text-cream">
+      <div className="glass-panel page-card bg-cream dark:bg-espresso text-espresso dark:text-cream">
         <div className="flex justify-between items-start border-b border-latte pb-3">
           <div>
             <h2 className="text-xl font-bold">
@@ -45,21 +46,21 @@ export const ConditionsPage = ({ lang = 'en' }) => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20">
-            <span className="text-xs opacity-75">{lang === 'hi' ? 'तापमान:' : 'Temperature:'}</span>
+          <div className="metric-card">
+            <span className="flex items-center gap-2 text-xs opacity-75"><ThermometerSun size={16} className="text-mocha" />{lang === 'hi' ? 'तापमान:' : 'Temperature:'}</span>
             <div className="text-2xl font-bold">{current.temperature_c ?? '--'}°C</div>
             <span className="text-[11px] opacity-75">{lang === 'hi' ? 'महसूस:' : 'Feels like:'} {current.apparent_temperature_c ?? '--'}°C</span>
           </div>
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20">
-            <span className="text-xs opacity-75">{lang === 'hi' ? 'आर्द्रता:' : 'Relative Humidity:'}</span>
+          <div className="metric-card">
+            <span className="flex items-center gap-2 text-xs opacity-75"><Droplets size={16} className="text-mocha" />{lang === 'hi' ? 'आर्द्रता:' : 'Relative Humidity:'}</span>
             <div className="text-2xl font-bold">{current.relative_humidity_pct ?? '--'}%</div>
           </div>
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20">
-            <span className="text-xs opacity-75">{lang === 'hi' ? 'वर्षा (24h):' : 'Precipitation:'}</span>
+          <div className="metric-card">
+            <span className="flex items-center gap-2 text-xs opacity-75"><CloudRain size={16} className="text-mocha" />{lang === 'hi' ? 'वर्षा (24h):' : 'Precipitation:'}</span>
             <div className="text-2xl font-bold">{current.precipitation_mm ?? 0} mm</div>
           </div>
-          <div className="p-3 border border-latte bg-latte/20 dark:bg-mocha/20">
-            <span className="text-xs opacity-75">{lang === 'hi' ? 'मृदा नमी:' : 'Soil Moisture:'}</span>
+          <div className="metric-card">
+            <span className="flex items-center gap-2 text-xs opacity-75"><Waves size={16} className="text-mocha" />{lang === 'hi' ? 'मृदा नमी:' : 'Soil Moisture:'}</span>
             <div className="text-2xl font-bold">{current.soil_moisture_m3m3 ?? 0.2} m³/m³</div>
           </div>
         </div>
@@ -69,7 +70,7 @@ export const ConditionsPage = ({ lang = 'en' }) => {
           <h4 className="text-sm font-bold mb-2">
             {lang === 'hi' ? 'आगामी 24 घंटे का तापमान व वाष्पोत्सर्जन (ET0) प्रोफाइल:' : '24-Hour Hourly Temperature & Evapotranspiration Profile:'}
           </h4>
-          <div className="overflow-x-auto border border-latte">
+          <div className="overflow-x-auto rounded-xl border border-latte">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-latte dark:bg-mocha border-b border-latte">
@@ -99,7 +100,7 @@ export const ConditionsPage = ({ lang = 'en' }) => {
       </div>
 
       {/* River Discharge & Flood Outlook Card */}
-      <div className="bg-cream dark:bg-espresso border border-latte p-5 text-espresso dark:text-cream">
+      <div className="glass-panel page-card bg-cream dark:bg-espresso text-espresso dark:text-cream">
         <div className="flex justify-between items-start border-b border-latte pb-3">
           <div>
             <h3 className="text-lg font-bold">
@@ -135,7 +136,7 @@ export const ConditionsPage = ({ lang = 'en' }) => {
       </div>
 
       {/* Official Government Portals Linkout */}
-      <div className="bg-cream dark:bg-espresso border border-latte p-4 text-espresso dark:text-cream flex justify-between items-center">
+      <div className="glass-panel page-card bg-cream dark:bg-espresso text-espresso dark:text-cream flex justify-between items-center gap-4">
         <div>
           <h4 className="font-bold text-sm">
             {lang === 'hi' ? 'केंद्रीय भूजल बोर्ड (CGWB) एवं India-WRIS पोर्टल' : 'India-WRIS / Central Ground Water Board Telemetry'}
@@ -150,9 +151,9 @@ export const ConditionsPage = ({ lang = 'en' }) => {
           href="https://indiawris.gov.in/wris/"
           target="_blank"
           rel="noreferrer"
-          className="px-3 py-1.5 text-xs bg-mocha text-cream dark:bg-latte dark:text-espresso border border-espresso font-bold"
+          className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs bg-mocha text-cream dark:bg-latte dark:text-espresso border border-espresso font-bold"
         >
-          {lang === 'hi' ? 'पोर्टल खोलें ↗' : 'Open Dashboard ↗'}
+          {lang === 'hi' ? 'पोर्टल खोलें' : 'Open Dashboard'} <ExternalLink size={14} />
         </a>
       </div>
     </div>

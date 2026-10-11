@@ -21,7 +21,7 @@ export const DataPage = ({ lang = 'en' }) => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 text-espresso dark:text-cream">
       {/* Overview & Provenance Summary */}
-      <div className="bg-cream dark:bg-espresso border border-latte p-6">
+      <div className="glass-panel page-card bg-cream dark:bg-espresso">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-latte pb-4 gap-2">
           <div>
             <h2 className="text-xl font-bold">
@@ -82,7 +82,7 @@ export const DataPage = ({ lang = 'en' }) => {
           <h3 className="text-sm font-bold mb-2">
             {lang === 'hi' ? 'डेटा स्रोत रजिस्ट्री एवं स्थिति:' : 'Active Data Feeds Registry & Health:'}
           </h3>
-          <div className="overflow-x-auto border border-latte">
+          <div className="overflow-x-auto rounded-xl border border-latte">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-latte dark:bg-mocha border-b border-latte">
@@ -127,7 +127,7 @@ export const DataPage = ({ lang = 'en' }) => {
 
       {/* AWS Open-Source & Container Architecture */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-cream dark:bg-espresso border border-latte p-5">
+        <div className="glass-panel page-card bg-cream dark:bg-espresso">
           <h3 className="text-base font-bold border-b border-latte pb-2 mb-3">
             {lang === 'hi' ? 'AWS ओपन-सोर्स टूल कार्यान्वयन' : 'AWS Open-Source Tool Integration'}
           </h3>
@@ -144,7 +144,7 @@ export const DataPage = ({ lang = 'en' }) => {
           </ul>
         </div>
 
-        <div className="bg-cream dark:bg-espresso border border-latte p-5">
+        <div className="glass-panel page-card bg-cream dark:bg-espresso">
           <h3 className="text-base font-bold border-b border-latte pb-2 mb-3">
             {lang === 'hi' ? 'कंटेनर संरचना (Docker Compose)' : 'Containerized Architecture'}
           </h3>

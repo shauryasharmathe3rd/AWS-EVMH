@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CheckCircle2, LoaderCircle, LocateFixed, Upload } from 'lucide-react';
 import { ProvenanceBadge } from '../components/ProvenanceBadge';
 
 export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
@@ -66,7 +67,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-cream dark:bg-espresso text-espresso dark:text-cream border border-latte p-6">
+    <div className="glass-panel page-card max-w-2xl mx-auto bg-cream dark:bg-espresso text-espresso dark:text-cream">
       <div className="border-b border-latte pb-3 flex justify-between items-start">
         <div>
           <h2 className="text-xl font-bold">
@@ -82,9 +83,9 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
       </div>
 
       {result ? (
-        <div className="mt-6 p-4 border border-mocha dark:border-latte bg-latte/30 dark:bg-mocha/30 space-y-2">
+        <div className="mt-6 rounded-xl border border-mocha dark:border-latte bg-latte/30 dark:bg-mocha/30 p-4 space-y-2">
           <h3 className="font-bold text-base">
-            ✅ {lang === 'hi' ? 'रिपोर्ट सफलतापूर्वक दर्ज की गई!' : 'Leak Report Successfully Registered!'}
+            <CheckCircle2 size={18} className="mr-1 inline text-mocha" />{lang === 'hi' ? 'रिपोर्ट सफलतापूर्वक दर्ज की गई!' : 'Leak Report Successfully Registered!'}
           </h3>
           <p className="text-xs">
             {lang === 'hi' ? 'रिपोर्ट आईडी:' : 'Report ID:'} <code>{result.report_id}</code>
@@ -122,9 +123,9 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
               <button
                 type="button"
                 onClick={handleGetLocation}
-                className="text-xs px-2 py-0.5 bg-latte dark:bg-mocha border border-espresso/40"
+                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs bg-latte dark:bg-mocha border border-espresso/20"
               >
-                📍 {lang === 'hi' ? 'वर्तमान GPS लें' : 'Use Current GPS'}
+                <LocateFixed size={14} /> {lang === 'hi' ? 'वर्तमान GPS लें' : 'Use Current GPS'}
               </button>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -134,7 +135,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
                 required
                 value={lat}
                 onChange={(e) => setLat(parseFloat(e.target.value))}
-                className="p-2 border border-latte bg-cream dark:bg-espresso text-xs"
+                className="form-control p-2 border border-latte bg-cream dark:bg-espresso text-xs"
                 placeholder="Latitude"
               />
               <input
@@ -143,7 +144,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
                 required
                 value={lon}
                 onChange={(e) => setLon(parseFloat(e.target.value))}
-                className="p-2 border border-latte bg-cream dark:bg-espresso text-xs"
+                className="form-control p-2 border border-latte bg-cream dark:bg-espresso text-xs"
                 placeholder="Longitude"
               />
             </div>
@@ -157,7 +158,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
             <select
               value={sizeClass}
               onChange={(e) => setSizeClass(e.target.value)}
-              className="w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
+              className="form-control w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
             >
               <option value="drip">{lang === 'hi' ? 'हल्की बूंद-बूंद / टपकना (~5 लीटर/मिनट)' : 'Minor Drip / Seepage (~5 LPM)'}</option>
               <option value="steady">{lang === 'hi' ? 'मध्यम निरंतर प्रवाह (~40 लीटर/मिनट)' : 'Steady Flow / Joint Crack (~40 LPM)'}</option>
@@ -174,7 +175,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
+              className="form-control w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
               placeholder={lang === 'hi' ? 'उदा. अस्पताल के मुख्य गेट के पास सड़क पर जलभराव...' : 'e.g., Near District Civil Hospital gate, continuous clean water pooling...'}
             />
           </div>
@@ -188,7 +189,7 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={(e) => setPhoto(e.target.files[0])}
-              className="w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
+              className="form-control w-full p-2 border border-latte bg-cream dark:bg-espresso text-xs"
             />
           </div>
 
@@ -196,11 +197,11 @@ export const ReportPage = ({ lang = 'en', onReportSuccess }) => {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-2.5 bg-mocha text-cream dark:bg-latte dark:text-espresso font-bold text-sm border border-espresso hover:opacity-90 transition-opacity"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 bg-mocha text-cream dark:bg-latte dark:text-espresso font-bold text-sm border border-espresso hover:opacity-90 transition-opacity"
             >
               {submitting
-                ? (lang === 'hi' ? 'जमा किया जा रहा है...' : 'Submitting Report...')
-                : (lang === 'hi' ? 'रिसाव रिपोर्ट जमा करें' : 'Submit Leak Report')}
+                ? <><LoaderCircle size={16} className="animate-spin" />{lang === 'hi' ? 'जमा किया जा रहा है...' : 'Submitting Report...'}</>
+                : <><Upload size={16} />{lang === 'hi' ? 'रिसाव रिपोर्ट जमा करें' : 'Submit Leak Report'}</>}
             </button>
           </div>
         </form>
